@@ -15,7 +15,7 @@ CREATE TABLE user (
 	sex VARCHAR(4) NOT NULL COMMENT '性别',
 	phone VARCHAR(11) NOT NULL COMMENT '手机',
 	email VARCHAR(20) COMMENT '电邮',
-	address VARCHAR(20) NOT NULL COMMENT '地址'
+	address VARCHAR(20) COMMENT '地址'
 );
 ```
 

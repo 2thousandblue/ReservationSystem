@@ -14,7 +14,7 @@ import entity.User;
 public class UserDaoImpl implements UserDao {
 	/**
 	 * 删除用户
-	 * @param 用户对象
+	 * @param id 用户对象
 	 * @return 删除结果
 	 */
 	public boolean delUser(int id) throws SQLException {
@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
 	}
 	/**
 	 * 获得某用户
-	 * @param 用户id
+	 * @param id 用户id
 	 * @return 用户对象
 	 */
 	public User getUser(int id) throws SQLException {
@@ -63,16 +63,16 @@ public class UserDaoImpl implements UserDao {
 	}
 	/**
 	 * 创建用户
-	 * @param 用户对象
+	 * @param user 用户对象
 	 * @return 创建结果
 	 */
 	public boolean saveUser(User user) throws SQLException {
-		
+		String sql = "INSERT INTO user (loginname, password, username, identity, sex, phone, email, address)";
 		return false;
 	}
 	/**
 	 * 更新用户数据
-	 * @param 用户对象
+	 * @param user 用户对象
 	 * @return 更新结果
 	 */
 	public boolean updateUser(User user) throws SQLException {
