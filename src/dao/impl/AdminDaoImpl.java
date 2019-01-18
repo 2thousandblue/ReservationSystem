@@ -93,7 +93,7 @@ public class AdminDaoImpl implements AdminDao {
 	 * @return
 	 */
 	public boolean updateAdmin(Admin admin) throws SQLException {
-		String sql = "UPDATE user SET loginname=?, password=?, username=?, identity=?, phone=? WHERE id=?";
+		String sql = "UPDATE admin SET loginname=?, password=?, username=?, identity=?, phone=? WHERE id=?";
 		try {
 			int i = JDBCUtil.executeUpdate(sql,
 					admin.getLoginname(),

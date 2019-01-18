@@ -57,7 +57,6 @@ VALUES
 ```
 CREATE TABLE flight (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT KEY COMMENT 'id',
-	flight_number VARCHAR(10) UNIQUE NOT NULL COMMENT '航班号',
 	takeoff_time DATETIME NOT NULL COMMENT '出发时间',
 	flying_time VARCHAR(20) NOT NULL COMMENT '飞行时间',
 	start_place VARCHAR(20) NOT NULL COMMENT '出发地',
@@ -70,21 +69,20 @@ CREATE TABLE flight (
 添加航班信息测试数据：
 ```
 INSERT INTO flight 
-(flight_number, takeoff_time, flying_time, start_place, end_place, ticket, price)
+(takeoff_time, flying_time, start_place, end_place, ticket, price)
 VALUES
-('20190120', '2019-01-18 10:05', '90分钟', '北京', '纽约', 50, 500.0),
-('20190121', '2019-01-18 11:05', '80分钟', '北京', '华盛顿', 50, 500.0),
-('20190122', '2019-01-18 10:05', '30分钟', '南京', '北京', 50, 200.0),
-('20190124', '2019-01-18 10:05', '60分钟', '重庆', '合肥', 50, 300.0);
+('2019-01-18 10:05', '90分钟', '北京', '纽约', 50, 500.0),
+('2019-01-18 11:05', '80分钟', '北京', '华盛顿', 50, 500.0),
+('2019-01-18 10:05', '30分钟', '南京', '北京', 50, 200.0),
+('2019-01-18 10:05', '60分钟', '重庆', '合肥', 50, 300.0);
 ```
 
 ## 购票信息表
 创建购票信息表：
 ```
 CREATE TABLE order_ticket (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT KEY COMMENT 'id',
-	order_number INT UNSIGNED UNIQUE NOT NULL COMMENT '订单号',
-	flight_number VARCHAR(10) NOT NULL COMMENT '航班号',
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT KEY COMMENT '订单号',
+	flight_id INT NOT NULL COMMENT '航班号',
 	takeoff_time DATETIME NOT NULL COMMENT '出发时间',
 	start_place VARCHAR(20) NOT NULL COMMENT '出发地',
 	end_place VARCHAR(20) NOT NULL COMMENT '目的地',
@@ -97,7 +95,7 @@ CREATE TABLE order_ticket (
 添加购票信息测试数据：
 ```
 INSERT INTO order_ticket 
-(order_number, flight_number, takeoff_time, start_place, end_place, price, username, identity)
+(flight_id, takeoff_time, start_place, end_place, price, username, identity)
 VALUES
-(5641, '20190120', '2019-01-18 10:05', '北京', '纽约', 500.0, '张三', '1241123413412195');
+(1, '2019-01-18 10:05', '北京', '纽约', 500.0, '张三', '1241123413412195');
 ```

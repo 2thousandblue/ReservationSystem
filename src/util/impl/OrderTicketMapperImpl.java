@@ -16,8 +16,7 @@ public class OrderTicketMapperImpl implements RowMapperObject {
 	public Object rowMapperObject(ResultSet rs) throws SQLException {
 		OrderTicket o = new OrderTicket();
 		o.setId(rs.getInt("id"));
-		o.setOrder_number(rs.getInt("order_number"));
-		o.setFlight_number(rs.getString("flight_number"));
+		o.setFlight_id(rs.getInt("flight_id"));
 		o.setTakeoff_time(rs.getString("takeoff_time"));
 		o.setStart_place(rs.getString("start_place"));
 		o.setEnd_place(rs.getString("end_place"));

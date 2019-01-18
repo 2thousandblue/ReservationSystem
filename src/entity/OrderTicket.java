@@ -1,12 +1,10 @@
 package entity;
 
 public class OrderTicket {
-	// id
-	private int id;
 	// 订单号
-	private int order_number;
+	private int id;
 	// 航班号
-	private String flight_number;
+	private int flight_id;
 	// 出发时间
 	private String takeoff_time;
 	// 出发地
@@ -28,18 +26,15 @@ public class OrderTicket {
 	public int getId() {
 		return id;
 	}
-	/**
-	 * @return the order_number
-	 */
-	public int getOrder_number() {
-		return order_number;
+
+	public int getFlight_id() {
+		return flight_id;
 	}
-	/**
-	 * @return the flight_number
-	 */
-	public String getFlight_number() {
-		return flight_number;
+
+	public void setFlight_id(int flight_id) {
+		this.flight_id = flight_id;
 	}
+
 	/**
 	 * @return the takeoff_time
 	 */
@@ -83,18 +78,6 @@ public class OrderTicket {
 		this.id = id;
 	}
 	/**
-	 * @param orderNumber the order_number to set
-	 */
-	public void setOrder_number(int orderNumber) {
-		order_number = orderNumber;
-	}
-	/**
-	 * @param flightNumber the flight_number to set
-	 */
-	public void setFlight_number(String flightNumber) {
-		flight_number = flightNumber;
-	}
-	/**
 	 * @param takeoffTime the takeoff_time to set
 	 */
 	public void setTakeoff_time(String takeoffTime) {
@@ -134,7 +117,7 @@ public class OrderTicket {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "OrderTicket [end_place=" + end_place + ", flight_number=" + flight_number + ", id=" + id + ", identity=" + identity + ", order_number=" + order_number + ", price=" + price
+		return "OrderTicket [end_place=" + end_place + ", flight_id=" + flight_id + ", id=" + id + ", identity=" + identity + ", price=" + price
 				+ ", start_place=" + start_place + ", takeoff_time=" + takeoff_time + ", username=" + username + "]";
 	}
 	

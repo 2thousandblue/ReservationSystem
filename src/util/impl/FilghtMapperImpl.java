@@ -15,7 +15,6 @@ public class FilghtMapperImpl implements RowMapperObject {
 	public Object rowMapperObject(ResultSet rs) throws SQLException {
 		Flight flight = new Flight();
 		flight.setId(rs.getInt("id"));
-		flight.setFlight_number(rs.getString("flight_number"));
 		flight.setTakeoff_time(rs.getString("takeoff_time"));
 		flight.setFlying_time(rs.getString("flying_time"));
 		flight.setStart_place(rs.getString("start_place"));

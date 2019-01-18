@@ -5,10 +5,8 @@ package entity;
  * @date: 2019-01-18
  */
 public class Flight {
-	// 航班信息主键id
-	private int id;
 	// 航班号
-	private String flight_number;
+	private int id;
 	// 出发时间
 	private String takeoff_time;
 	// 飞行时间
@@ -29,12 +27,6 @@ public class Flight {
 	 */
 	public int getId() {
 		return id;
-	}
-	/**
-	 * @return the flight_number
-	 */
-	public String getFlight_number() {
-		return flight_number;
 	}
 	/**
 	 * @return the takeoff_time
@@ -79,12 +71,6 @@ public class Flight {
 		this.id = id;
 	}
 	/**
-	 * @param flightNumber the flight_number to set
-	 */
-	public void setFlight_number(String flightNumber) {
-		flight_number = flightNumber;
-	}
-	/**
 	 * @param takeoffTime the takeoff_time to set
 	 */
 	public void setTakeoff_time(String takeoffTime) {
@@ -124,7 +110,7 @@ public class Flight {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "Flight [end_place=" + end_place + ", flight_number=" + flight_number + ", flying_time=" + flying_time + ", id=" + id + ", price=" + price + ", start_place=" + start_place
+		return "Flight [end_place=" + end_place + ", flying_time=" + flying_time + ", id=" + id + ", price=" + price + ", start_place=" + start_place
 				+ ", takeoff_time=" + takeoff_time + ", ticket=" + ticket + "]";
 	}
 	
