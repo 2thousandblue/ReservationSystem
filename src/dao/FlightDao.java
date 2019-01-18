@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import entity.Flight;
 
@@ -12,19 +13,19 @@ import entity.Flight;
 public interface FlightDao {
 	/**
 	 * 保存航班信息
-	 * @param 航班信息对象
+	 * @param flight 航班信息对象
 	 * @return 保存结果
 	 */
 	boolean saveFlight(Flight flight) throws SQLException;
 	/**
 	 * 删除航班信息
-	 * @param 航班信息对象
+	 * @param id 航班信息对象
 	 * @return 删除结果
 	 */
 	boolean delFlight(int id) throws SQLException;
 	/**
 	 * 更新航班信息
-	 * @param 航班信息对象
+	 * @param flight 航班信息对象
 	 * @return 更新结果
 	 */
 	boolean updateFlight(Flight flight) throws SQLException;
@@ -39,9 +40,5 @@ public interface FlightDao {
 	 * @return 航班信息对象数组
 	 * @throws SQLException 
 	 */
-	Flight[] listFlight() throws SQLException;
-	
-	
-	
-	
+	List<Flight> listFlight() throws SQLException;
 }

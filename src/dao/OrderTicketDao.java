@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import entity.OrderTicket;
 
@@ -18,7 +19,7 @@ public interface OrderTicketDao {
 	boolean saveOrderTicket(OrderTicket orderTicket) throws SQLException;
 	/**
 	 * 删除订票信息
-	 * @param orderTicket
+	 * @param id
 	 * @return 删除结果
 	 */
 	boolean delOrderTicket(int id) throws SQLException;
@@ -39,5 +40,5 @@ public interface OrderTicketDao {
 	 * @return 订票信息对象数组
 	 * @throws SQLException 
 	 */
-	OrderTicket[] listOrderTicket() throws SQLException;
+	List<OrderTicket> listOrderTicket() throws SQLException;
 }

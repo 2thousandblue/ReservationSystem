@@ -1,13 +1,18 @@
 package dao.impl;
 
 import java.sql.SQLException;
-
+import java.util.List;
 import entity.OrderTicket;
 
+/**
+ * @Description: 订票信息实现类
+ * @author: 我的袜子都是洞
+ * @date: 2019-01-18 20:06
+ */
 public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	/**
 	 * 删除订票信息
-	 * @param orderTicket
+	 * @param id orderTicket
 	 * @return 删除结果
 	 */
 	public boolean delOrderTicket(int id) throws SQLException {
@@ -27,7 +32,7 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	 * 获得所有订票信息
 	 * @return 订票信息对象数组
 	 */
-	public OrderTicket[] listOrderTicket()  throws SQLException{
+	public List<OrderTicket> listOrderTicket()  throws SQLException{
 		// TODO Auto-generated method stub
 		return null;
 	}

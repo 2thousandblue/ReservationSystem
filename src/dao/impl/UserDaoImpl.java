@@ -19,12 +19,16 @@ public class UserDaoImpl implements UserDao {
 	 */
 	public boolean delUser(int id) throws SQLException {
 		String sql = "DELETE FROM user WHERE id=?";
-		int i = JDBCUtil.executeUpdate(sql, id);
-		if (i == 0) {
-			throw new  SQLException("用户不存在");
-		} else {
-			return true;
-		}
+		try {
+            int i = JDBCUtil.executeUpdate(sql, id);
+            if (i == 0) {
+                throw new SQLException("用户不存在");
+            } else {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new SQLException("无法执行该操作，请联系管理员");
+        }
 	}
 	/**
 	 * 获得某用户
@@ -67,8 +71,16 @@ public class UserDaoImpl implements UserDao {
 	 * @return 创建结果
 	 */
 	public boolean saveUser(User user) throws SQLException {
-		String sql = "INSERT INTO user (loginname, password, username, identity, sex, phone, email, address)";
-		return false;
+		String sql = "INSERT INTO user (loginname, password, username, identity, sex, phone, email, address) VALUES (?,?,?,?,?,?,?,?)";
+        try {
+            int i = JDBCUtil.executeUpdate(sql, user.getLoginname(), user.getPassword(), user.getUsername(), user.getIdentity(), user.getSex(), user.getPhone(), user.getEmail(), user.getAddress());
+            if (i == 1) {
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new SQLException("无法执行该操作，请联系管理员");
+        }
 	}
 	/**
 	 * 更新用户数据
@@ -76,8 +88,25 @@ public class UserDaoImpl implements UserDao {
 	 * @return 更新结果
 	 */
 	public boolean updateUser(User user) throws SQLException {
-		
-		return false;
+		String sql = "UPDATE user SET loginname=?, password=?, username=?, identity=?, sex=?, phone=?, email=?, address=?WHERE id=?";
+		try {
+			int i = JDBCUtil.executeUpdate(sql,
+					user.getLoginname(),
+					user.getPassword(),
+					user.getUsername(),
+					user.getIdentity(),
+					user.getSex(),
+					user.getPhone(),
+					user.getEmail(),
+					user.getAddress(),
+					user.getId());
+			if (i == 1) {
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			throw new SQLException("无法执行该操作，请联系管理员");
+		}
 	}
 
 }
