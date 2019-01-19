@@ -18,6 +18,7 @@ public class FlightDaoImpl implements FlightDao {
 	 * @param id 航班信息对象
 	 * @return 删除结果
 	 */
+	@Override
 	public boolean delFlight(int id) throws SQLException {
 		String sql = "DELETE FROM  flight WHERE id=?";
 		try {
@@ -36,6 +37,7 @@ public class FlightDaoImpl implements FlightDao {
 	 * @param id
 	 * @return 航班信息对象
 	 */
+	@Override
 	public Flight getFlight(int id) throws SQLException {
 		String sql = "SELECT *  FROM flight WHERE id=?";
 		try {
@@ -53,6 +55,7 @@ public class FlightDaoImpl implements FlightDao {
 	 * 获取所有航班信息
 	 * @return 航班信息对象数组
 	 */
+	@Override
 	public List<Flight> listFlight()  throws SQLException{
 		String sql = "SELECT *  FROM flight";
 		try {
@@ -71,6 +74,7 @@ public class FlightDaoImpl implements FlightDao {
 	 * @param flight 航班信息对象
 	 * @return 保存结果
 	 */
+	@Override
 	public boolean saveFlight(Flight flight) throws SQLException {
 		String sql = "INSERT INTO flight (takeoff_time, flying_time, start_place, end_place, ticket, price) VALUES (?,?,?,?,?,?)";
 		try {
@@ -94,6 +98,7 @@ public class FlightDaoImpl implements FlightDao {
 	 * @param flight 航班信息对象
 	 * @return 更新结果
 	 */
+	@Override
 	public boolean updateFlight(Flight flight) throws SQLException {
 		String sql = "UPDATE flight SET takeoff_time=?, flying_time=?, start_place=?, end_place=?, ticket=?, price=? WHERE id=?";
 		try {

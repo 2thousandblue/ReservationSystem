@@ -17,6 +17,7 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	 * @param id orderTicket
 	 * @return 删除结果
 	 */
+	@Override
 	public boolean delOrderTicket(int id) throws SQLException {
 		String sql = "DELETE FROM order_ticket WHERE id=?";
 		try {
@@ -35,6 +36,7 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	 * @param id
 	 * @return 订票信息对象
 	 */
+	@Override
 	public OrderTicket getOrderTicket(int id) throws SQLException {
 		String sql = "SELECT *  FROM order_ticket WHERE id=?";
 		try {
@@ -52,6 +54,7 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	 * 获得所有订票信息
 	 * @return 订票信息对象数组
 	 */
+	@Override
 	public List<OrderTicket> listOrderTicket()  throws SQLException{
 		String sql = "SELECT *  FROM order_ticket";
 		try {
@@ -70,11 +73,11 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	 * @param orderTicket
 	 * @return 创建结果
 	 */
+	@Override
 	public boolean saveOrderTicket(OrderTicket orderTicket)  throws SQLException{
-		String sql = "INSERT INTO order_ticket (flight_id, takeoff_time, start_place, end_place, price, username, identity) VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO order_ticket (takeoff_time, start_place, end_place, price, username, identity) VALUES (?,?,?,?,?,?,?)";
 		try {
 			int i = JDBCUtil.executeUpdate(sql,
-					orderTicket.getFlight_id(),
 					orderTicket.getTakeoff_time(),
 					orderTicket.getStart_place(),
 					orderTicket.getEnd_place(),
@@ -94,11 +97,11 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	 * @param orderTicket
 	 * @return 更新结果
 	 */
+	@Override
 	public boolean updateOrderTicket(OrderTicket orderTicket) throws SQLException {
-		String sql = "UPDATE flight SET flight_id=?, takeoff_time=?, start_place=?, end_place=?, price=?, username=?, identity=? WHERE id=?";
+		String sql = "UPDATE flight SET takeoff_time=?, start_place=?, end_place=?, price=?, username=?, identity=? WHERE id=?";
 		try {
 			int i = JDBCUtil.executeUpdate(sql,
-					orderTicket.getFlight_id(),
 					orderTicket.getTakeoff_time(),
 					orderTicket.getStart_place(),
 					orderTicket.getEnd_place(),

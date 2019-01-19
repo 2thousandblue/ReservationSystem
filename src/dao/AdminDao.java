@@ -32,7 +32,7 @@ public interface AdminDao {
 	 * 获得管理员
 	 * @return 管理员对象
 	 */
-	Admin getAdmin (int id) throws SQLException;
+	Admin getAdmin (String loginname) throws SQLException;
 	/**
 	 * 获得所有管理员
 	 * @return 管理员对象数组

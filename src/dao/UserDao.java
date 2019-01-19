@@ -31,10 +31,16 @@ public interface UserDao {
 	boolean updateUser(User user) throws SQLException;
 	/**
 	 * 获得某用户
-	 * @param 用户id
+	 * @param id
 	 * @return 用户对象
 	 */
 	User getUser(int id) throws SQLException;
+	/**
+	 * 获得某用户
+	 * @param loginname
+	 * @return 用户对象
+	 */
+	User getUser(String loginname) throws SQLException;
 	/**
 	 * 获得所有用户
 	 * @return 用户对象数组

@@ -19,6 +19,7 @@ public class AdminDaoImpl implements AdminDao {
 	 * @param id
 	 * @return
 	 */
+	@Override
 	public boolean delAdmin(int id) throws SQLException {
 		String sql = "DELETE FROM admin WHERE id=?";
 		try {
@@ -37,11 +38,12 @@ public class AdminDaoImpl implements AdminDao {
 	 * 获得管理员
 	 * @return 管理员对象
 	 */
-	public Admin getAdmin(int id) throws SQLException {
-		String sql = "SELECT *  FROM admin WHERE id=?";
+	@Override
+	public Admin getAdmin(String loginname) throws SQLException {
+		String sql = "SELECT *  FROM admin WHERE loginname=?";
 		try {
 			List<Admin> listAdmin = new ArrayList<Admin>();
-			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl(), id);
+			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl(), loginname);
 			for (Object o:objects) {
 				listAdmin.add((Admin)o);
 			}
@@ -55,6 +57,7 @@ public class AdminDaoImpl implements AdminDao {
 	 * 获得所有管理员
 	 * @return 管理员对象数组
 	 */
+	@Override
 	public List<Admin> listAdmin() throws SQLException {
 		String sql = "SELECT *  FROM admin";
 		try {
@@ -74,6 +77,7 @@ public class AdminDaoImpl implements AdminDao {
 	 * @param admin 管理员对象
 	 * @return 创建结果
 	 */
+	@Override
 	public boolean saveAdmin(Admin admin) throws SQLException {
 		String sql = "INSERT INTO admin (loginname, password, username, identity, phone) VALUES (?,?,?,?,?)";
 		try {
@@ -92,6 +96,7 @@ public class AdminDaoImpl implements AdminDao {
 	 * @param admin 管理员对象
 	 * @return
 	 */
+	@Override
 	public boolean updateAdmin(Admin admin) throws SQLException {
 		String sql = "UPDATE admin SET loginname=?, password=?, username=?, identity=?, phone=? WHERE id=?";
 		try {

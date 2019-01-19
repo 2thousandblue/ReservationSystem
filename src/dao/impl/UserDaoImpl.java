@@ -17,6 +17,7 @@ public class UserDaoImpl implements UserDao {
 	 * @param id 用户对象
 	 * @return 删除结果
 	 */
+	@Override
 	public boolean delUser(int id) throws SQLException {
 		String sql = "DELETE FROM user WHERE id=?";
 		try {
@@ -35,6 +36,7 @@ public class UserDaoImpl implements UserDao {
 	 * @param id 用户id
 	 * @return 用户对象
 	 */
+	@Override
 	public User getUser(int id) throws SQLException {
 		String sql = "SELECT *  FROM user WHERE id=?";
 		try {
@@ -70,6 +72,7 @@ public class UserDaoImpl implements UserDao {
 	 * @param user 用户对象
 	 * @return 创建结果
 	 */
+	@Override
 	public boolean saveUser(User user) throws SQLException {
 		String sql = "INSERT INTO user (loginname, password, username, identity, sex, phone, email, address) VALUES (?,?,?,?,?,?,?,?)";
         try {
@@ -87,6 +90,7 @@ public class UserDaoImpl implements UserDao {
 	 * @param user 用户对象
 	 * @return 更新结果
 	 */
+	@Override
 	public boolean updateUser(User user) throws SQLException {
 		String sql = "UPDATE user SET loginname=?, password=?, username=?, identity=?, sex=?, phone=?, email=?, address=?WHERE id=?";
 		try {
@@ -104,6 +108,25 @@ public class UserDaoImpl implements UserDao {
 				return true;
 			}
 			return false;
+		} catch (SQLException e) {
+			throw new SQLException("无法执行该操作，请联系管理员");
+		}
+	}
+	/**
+	 * 获得某用户
+	 * @param loginname
+	 * @return 用户对象
+	 */
+	@Override
+	public User getUser(String loginname) throws SQLException {
+		String sql = "SELECT *  FROM user WHERE loginname=?";
+		try {
+			List<User> listUser = new ArrayList<User>();
+			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl(), loginname);
+			for (Object o:objects) {
+				listUser.add((User)o);
+			}
+			return listUser.get(0);
 		} catch (SQLException e) {
 			throw new SQLException("无法执行该操作，请联系管理员");
 		}
