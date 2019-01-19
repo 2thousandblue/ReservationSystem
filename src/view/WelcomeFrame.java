@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * @author: 我的袜子都是洞
  * @date: 2019-01-19 23:08
  */
-public class ReservationFrame extends JFrame {
+public class WelcomeFrame extends JFrame {
 	JLabel imgLabel = new JLabel(new ImageIcon("src/view/img.jpg"));
 	JPanel jPanel = new JPanel();
 	JLabel loginText = new JLabel("用户名");
@@ -22,7 +22,7 @@ public class ReservationFrame extends JFrame {
 	/**
 	 * 图形框架初始化
 	 */
-	public void initFrame() {
+	private void initFrame() {
 		setSize(800, 600);
 		this.setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +31,7 @@ public class ReservationFrame extends JFrame {
 	/**
 	 * 添加组件
 	 */
-	public void addComponent() {
+	private void addComponent() {
 		add(imgLabel, BorderLayout.NORTH);
 		jPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,20));
 		jPanel.setSize(800, 100);
@@ -47,7 +47,7 @@ public class ReservationFrame extends JFrame {
 	/**
 	 * 监听器
 	 */
-	public void addListener() {
+	private void addListener() {
 		// 登陆按钮的事件监听
 		loginBtn.addActionListener(new ActionListener() {
 			@Override
@@ -63,15 +63,15 @@ public class ReservationFrame extends JFrame {
 		registerBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ReservationFrame.this.remove(imgLabel);
-				ReservationFrame.this.remove(jPanel);
-				ReservationFrame.this.add(imgLabel);
-				ReservationFrame.this.setVisible(true);
+				WelcomeFrame.this.remove(imgLabel);
+				WelcomeFrame.this.remove(jPanel);
+				WelcomeFrame.this.add(imgLabel);
+				WelcomeFrame.this.setVisible(true);
 			}
 		});
 	}
 	
-	public ReservationFrame(String title) {
+	public WelcomeFrame(String title) {
 		super(title);
 		initFrame();
 		addComponent();
@@ -80,7 +80,7 @@ public class ReservationFrame extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		ReservationFrame mf = new ReservationFrame("航空订票系统");
+		WelcomeFrame mf = new WelcomeFrame("航空订票系统");
 	}
 }
 
