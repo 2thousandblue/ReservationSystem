@@ -14,19 +14,15 @@ import manage.AdminManage;
 public class AdminManageImpl implements AdminManage {
 	/**
 	 * 管理员登陆验证
-	 * @param admin
 	 * @return
 	 */
 	@Override
-	public boolean loginAdmin(String loginname, String password1,String password2) throws AdminException {
+	public boolean loginAdmin(String loginname, String password) throws AdminException {
 		if (loginname == null) {
 			throw new AdminException("用户名为空");
 		}
-		if ("".equals(password1) || "".equals(password2)) {
+		if ("".equals(password)) {
 			throw new AdminException("密码为空");
-		}
-		if (password1.equals(password2)) {
-			throw new AdminException("两次密码不一致");
 		}
 		// 以字母开头，长度在6~18之间，只能包含字符、数字和下划线
 		String pattern = "^[a-zA-Z]\\w{5,17}$";
@@ -37,7 +33,7 @@ public class AdminManageImpl implements AdminManage {
 		AdminDao adminDao = new AdminDaoImpl();
 		try {
 			Admin admin = adminDao.getAdmin(loginname);
-			if (admin.getPassword().equals(password1)) {
+			if (admin.getPassword().equals(password)) {
 				return true;
 			} else {
 				return false;

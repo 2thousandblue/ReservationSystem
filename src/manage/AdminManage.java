@@ -9,8 +9,7 @@ import exception.AdminException;
 public interface AdminManage {
 	/**
 	 * 管理员登陆验证
-	 * @param admin
 	 * @return
 	 */
-	boolean loginAdmin (String loginname, String password1,String password2) throws AdminException;
+	boolean loginAdmin (String loginname, String password) throws AdminException;
 }

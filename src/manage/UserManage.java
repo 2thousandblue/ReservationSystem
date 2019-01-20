@@ -1,6 +1,5 @@
 package manage;
 
-import entity.User;
 import exception.UserException;
 
 /**
@@ -11,13 +10,11 @@ import exception.UserException;
 public interface UserManage {
 	/**
 	 * 用户登陆验证
-	 * @param loginname
 	 * @return 验证结果
 	 */
-	boolean loginUser (String loginname, String password1,String password2) throws UserException;
+	boolean loginUser (String loginname, String password) throws UserException;
 	/**
 	 * 用户注册
-	 * @param user
 	 * @return
 	 */
 	boolean registerUser (String loginname, String password1,String password2) throws UserException;
