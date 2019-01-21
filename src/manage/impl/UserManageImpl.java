@@ -1,7 +1,6 @@
 package manage.impl;
 
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 import dao.UserDao;
 import dao.impl.UserDaoImpl;
 import entity.User;
@@ -19,28 +18,19 @@ public class UserManageImpl implements UserManage {
 	 */
 	@Override
 	public boolean loginUser(String loginname, String password) throws UserException {
-		if (loginname == null) {
-			throw new UserException("用户名为空");
-		}
-		if ("".equals(password)) {
-			throw new UserException("密码为空");
-		}
-		// 以字母开头，长度在6~18之间，只能包含字符、数字和下划线
-		String pattern = "^[a-zA-Z]\\w{5,17}$";
-		boolean isMatch = Pattern.matches(pattern, loginname);
-		if (!isMatch) {
-			throw new UserException("用户名：以字母开头，长度在6~18之间，只能包含字符、数字和下划线");
-		}
 		UserDao userDao = new UserDaoImpl();
 		try {
 			User user = userDao.getUser(loginname);
+			if (user == null) {
+				throw new UserException("你输入的帐号不存在");
+			}
 			if (user.getPassword().equals(password)) {
 				return true;
 			} else {
 				return false;
 			}
 		} catch (SQLException e) {
-			throw new UserException("你输入的帐号不存在");
+			throw new UserException(e.getMessage());
 		}
 	}
 	/**
@@ -48,8 +38,13 @@ public class UserManageImpl implements UserManage {
 	 * @return
 	 */
 	@Override
-	public boolean registerUser(String loginname, String password1,String password2) throws UserException {
-		return false;
+	public boolean registerUser(User user) throws UserException {
+		UserDao userDao = new UserDaoImpl();
+		try {
+			 boolean f = userDao.saveUser(user);
+			 return f;
+		} catch (SQLException e) {
+			throw new UserException(e.getMessage());
+		}
 	}
-
 }

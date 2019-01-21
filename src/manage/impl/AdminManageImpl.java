@@ -18,18 +18,6 @@ public class AdminManageImpl implements AdminManage {
 	 */
 	@Override
 	public boolean loginAdmin(String loginname, String password) throws AdminException {
-		if (loginname == null) {
-			throw new AdminException("用户名为空");
-		}
-		if ("".equals(password)) {
-			throw new AdminException("密码为空");
-		}
-		// 以字母开头，长度在6~18之间，只能包含字符、数字和下划线
-		String pattern = "^[a-zA-Z]\\w{5,17}$";
-		boolean isMatch = Pattern.matches(pattern, loginname);
-		if (!isMatch) {
-			throw new AdminException("用户名：以字母开头，长度在6~18之间，只能包含字符、数字和下划线");
-		}
 		AdminDao adminDao = new AdminDaoImpl();
 		try {
 			Admin admin = adminDao.getAdmin(loginname);

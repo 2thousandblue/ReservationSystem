@@ -1,4 +1,6 @@
 package manage;
+import java.util.List;
+
 import entity.OrderTicket;
 import exception.OrderTicketException;
 /**
@@ -12,7 +14,7 @@ public interface OrderTicketManage {
 	 * @param orderTicket 订票信息
 	 * @return 订票号
 	 */
-	int bookTicket (OrderTicket orderTicket) throws OrderTicketException;
+	boolean bookTicket (String loginname, int flightId) throws OrderTicketException;
 	/**
 	 * 取消订票
 	 * @param orderTicket
@@ -20,4 +22,11 @@ public interface OrderTicketManage {
 	 * @throws OrderTicketException
 	 */
 	boolean cancerTicket (OrderTicket orderTicket) throws OrderTicketException;
+	/**
+	 * 获取订票信息
+	 * @param username 用户姓名
+	 * @return
+	 * @throws OrderTicketException
+	 */
+	List<OrderTicket> listOrderTicket(String username) throws OrderTicketException;
 }

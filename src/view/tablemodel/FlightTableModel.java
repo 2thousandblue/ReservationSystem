@@ -4,7 +4,6 @@ import entity.Flight;
 import exception.FlightException;
 import manage.FlightManage;
 import manage.impl.FlightManageImpl;
-
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 

@@ -2,7 +2,6 @@ package dao;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import entity.OrderTicket;
 
 /**
@@ -41,4 +40,11 @@ public interface OrderTicketDao {
 	 * @throws SQLException 
 	 */
 	List<OrderTicket> listOrderTicket() throws SQLException;
+	/**
+	 * 获取某用户的所有订单
+	 * @param username
+	 * @return
+	 * @throws SQLException
+	 */
+	List<OrderTicket> listOrderTicket(String username) throws SQLException;
 }

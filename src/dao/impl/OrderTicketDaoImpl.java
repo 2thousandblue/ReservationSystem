@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import entity.OrderTicket;
 import util.JDBCUtil;
+import util.TransactionImpl;
 import util.impl.OrderTicketMapperImpl;
 /**
  * @Description: 订票信息实现类
@@ -60,6 +61,9 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 		try {
 			List<OrderTicket> listOrderTicket = new ArrayList<OrderTicket>();
 			List<Object> objects = JDBCUtil.executeQuery(sql, new OrderTicketMapperImpl());
+			if (objects.size() == 0) {
+				return null;
+			}
 			for (Object o:objects) {
 				listOrderTicket.add((OrderTicket) o);
 			}
@@ -70,14 +74,15 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	}
 	/**
 	 * 创建订票信息
-	 * @param orderTicket
+	 * @param 
 	 * @return 创建结果
 	 */
 	@Override
 	public boolean saveOrderTicket(OrderTicket orderTicket)  throws SQLException{
-		String sql = "INSERT INTO order_ticket (takeoff_time, start_place, end_place, price, username, identity) VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO order_ticket (flight_id, takeoff_time, start_place, end_place, price, username, identity) VALUES (?,?,?,?,?,?,?)";
 		try {
 			int i = JDBCUtil.executeUpdate(sql,
+					orderTicket.getFlight_id(),
 					orderTicket.getTakeoff_time(),
 					orderTicket.getStart_place(),
 					orderTicket.getEnd_place(),
@@ -117,5 +122,25 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 			throw new SQLException("无法执行该操作，请联系管理人员");
 		}
 	}
-
+	/* (non-Javadoc)
+	 * @see dao.OrderTicketDao#listOrderTicket(java.lang.String)
+	 */
+	@Override
+	public List<OrderTicket> listOrderTicket(String username) throws SQLException {
+		String sql = "SELECT *  FROM order_ticket WHERE username=?";
+		try {
+			List<OrderTicket> listOrderTicket = new ArrayList<OrderTicket>();
+			List<Object> objects = JDBCUtil.executeQuery(sql, new OrderTicketMapperImpl(), username);
+			if (objects.size() == 0) {
+				return null;
+			}
+			for (Object o:objects) {
+				listOrderTicket.add((OrderTicket) o);
+			}
+			return listOrderTicket;
+		} catch (SQLException e) {
+			throw new SQLException("无法执行该操作，请联系管理人员");
+		}
+	}
+	
 }

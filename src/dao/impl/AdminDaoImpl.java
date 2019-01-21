@@ -44,6 +44,9 @@ public class AdminDaoImpl implements AdminDao {
 		try {
 			List<Admin> listAdmin = new ArrayList<Admin>();
 			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl(), loginname);
+			if (objects.size() == 0) {
+				return null;
+			}
 			for (Object o:objects) {
 				listAdmin.add((Admin)o);
 			}
@@ -63,6 +66,9 @@ public class AdminDaoImpl implements AdminDao {
 		try {
 			List<Admin> listAdmin = new ArrayList<Admin>();
 			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl());
+			if (objects.size() == 0) {
+				return null;
+			}
 			for (Object o:objects) {
 				listAdmin.add((Admin) o);
 			}

@@ -1,9 +1,16 @@
 package view.user;
 
 import javax.swing.*;
+
+import manage.UserManage;
+import manage.impl.UserManageImpl;
+
+import exception.UserException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 /**
  * @Description: 用户登陆
@@ -53,15 +60,62 @@ public class UserLogin extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String loginname = loginField.getText();
-				char[] password = passField.getPassword();
-				if (loginname.length() == 0 || password.length == 0) {
-					JOptionPane.showMessageDialog(null,"用户名、密码不能为空");
+				String password = passField.getText();
+				if (loginname.length() == 0) {
+					JOptionPane.showMessageDialog(null,"用户名不能为空");
+					// 获取用户名焦点
+					loginField.grabFocus();
+					loginField.setText("");
+					passField.setText("");
+					return;
 				}
-				// 获取用户名焦点
-				loginField.grabFocus();
-				loginField.setText("");
-				passField.setText("");
+				if (password.length() == 0) {
+					JOptionPane.showMessageDialog(null,"密码不能为空");
+					// 获取用户名焦点
+					loginField.grabFocus();
+					loginField.setText("");
+					passField.setText("");
+					return;
+				}
+				// 以字母开头，长度在6~18之间，只能包含字符、数字和下划线
+				String pattern = "^[a-zA-Z]\\w{4,17}$";
+				boolean isMatch = Pattern.matches(pattern, loginname);
+				if (!isMatch) {
+					JOptionPane.showMessageDialog(null,"用户名：以字母开头，长度在6~18之间，只能包含字符、数字和下划线");
+					// 获取用户名焦点
+					loginField.grabFocus();
+					loginField.setText("");
+					passField.setText("");
+					return;
+				}
+				// 导入用户管理层，准备对帐号和密码进行验证
+				UserManage userManage = new UserManageImpl();
+				try {
+					boolean isSuccess = userManage.loginUser(loginname, password);
+					if (!isSuccess) {
+						JOptionPane.showMessageDialog(null,"用户密码错误");
+						// 获取用户名焦点
+						loginField.grabFocus();
+						loginField.setText("");
+						passField.setText("");
+						return;
+					} else {
+						// 登陆成功
+						UserGUI userGUI = new UserGUI(loginname);
+						// 开启窗口
+						userGUI.getGUI(userGUI);
+						return;
+					}
+				} catch (UserException e1) {
+					JOptionPane.showMessageDialog(null,e1.getMessage());
+					// 获取用户名焦点
+					loginField.grabFocus();
+					loginField.setText("");
+					passField.setText("");
+					return;
+				}
 			}
+		
 		});
 	}
 	

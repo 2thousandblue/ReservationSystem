@@ -42,6 +42,9 @@ public class UserDaoImpl implements UserDao {
 		try {
 			List<User> listUser = new ArrayList<User>();
 			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl(), id);
+			if (objects.size() == 0) {
+				return null;
+			}
 			for (Object o:objects) {
 				listUser.add((User)o);
 			}
@@ -59,6 +62,9 @@ public class UserDaoImpl implements UserDao {
 		try {
 			List<User> listUser = new ArrayList<User>();
 			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl());
+			if (objects.size() == 0) {
+				return null;
+			}
 			for (Object o:objects) {
 				listUser.add((User)o);
 			}
@@ -123,6 +129,9 @@ public class UserDaoImpl implements UserDao {
 		try {
 			List<User> listUser = new ArrayList<User>();
 			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl(), loginname);
+			if (objects.size() == 0) {
+				return null;
+			}
 			for (Object o:objects) {
 				listUser.add((User)o);
 			}
@@ -131,5 +140,4 @@ public class UserDaoImpl implements UserDao {
 			throw new SQLException("无法执行该操作，请联系管理员");
 		}
 	}
-
 }
