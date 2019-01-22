@@ -41,4 +41,6 @@ public interface FlightDao {
 	 * @throws SQLException 
 	 */
 	List<Flight> listFlight() throws SQLException;
+	List<Flight> listCanModify() throws SQLException;
+	List<Flight> listCanFlight() throws SQLException;
 }

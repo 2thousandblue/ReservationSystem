@@ -27,7 +27,7 @@ public class AdminManageImpl implements AdminManage {
 				return false;
 			}
 		} catch (SQLException e) {
-			throw new AdminException("你输入的帐号不存在");
+			throw new AdminException(e.getMessage());
 		}
 	}
 

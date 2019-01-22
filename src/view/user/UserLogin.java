@@ -101,9 +101,7 @@ public class UserLogin extends JPanel {
 						return;
 					} else {
 						// 登陆成功
-						UserGUI userGUI = new UserGUI(loginname);
-						// 开启窗口
-						userGUI.getGUI(userGUI);
+						UserFrame userGUI = new UserFrame(loginname);
 						return;
 					}
 				} catch (UserException e1) {

@@ -34,6 +34,14 @@ public interface OrderTicketDao {
 	 * @return 订票信息对象
 	 */
 	OrderTicket getOrderTicket(int id) throws SQLException;
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	boolean isUseFlightID(int id, String username) throws SQLException;
 	/**
 	 * 获得所有订票信息
 	 * @return 订票信息对象数组

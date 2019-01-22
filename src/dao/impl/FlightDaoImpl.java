@@ -13,6 +13,24 @@ import util.impl.FilghtMapperImpl;
  * @date: 2019-01-18 20:06
  */
 public class FlightDaoImpl implements FlightDao {
+	
+	/* (non-Javadoc)
+	 * @see dao.FlightDao#listCanModify()
+	 */
+	@Override
+	public List<Flight> listCanModify() throws SQLException {
+		String sql = "SELECT *  FROM flight WHERE takeoff_time > NOW() AND id NOT IN (SELECT flight_id FROM order_ticket)";
+		try {
+			List<Flight> listFlight = new ArrayList<Flight>();
+			List<Object> objects = JDBCUtil.executeQuery(sql, new FilghtMapperImpl());
+			for (Object o:objects) {
+				listFlight.add((Flight) o);
+			}
+			return listFlight;
+		} catch (SQLException e) {
+			throw new SQLException("无法执行该操作，请联系管理人员");
+		}
+	}
 	/**
 	 * 删除航班信息
 	 * @param id 航班信息对象
@@ -47,6 +65,25 @@ public class FlightDaoImpl implements FlightDao {
 				listFlight.add((Flight)o);
 			}
 			return listFlight.get(0);
+		} catch (SQLException e) {
+			throw new SQLException("无法执行该操作，请联系管理人员");
+		}
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see dao.FlightDao#listCanFlight()
+	 */
+	@Override
+	public List<Flight> listCanFlight() throws SQLException {
+		String sql = "SELECT *  FROM flight WHERE takeoff_time > NOW()";
+		try {
+			List<Flight> listFlight = new ArrayList<Flight>();
+			List<Object> objects = JDBCUtil.executeQuery(sql, new FilghtMapperImpl());
+			for (Object o:objects) {
+				listFlight.add((Flight) o);
+			}
+			return listFlight;
 		} catch (SQLException e) {
 			throw new SQLException("无法执行该操作，请联系管理人员");
 		}

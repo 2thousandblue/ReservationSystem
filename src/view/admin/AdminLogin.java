@@ -1,15 +1,9 @@
 package view.admin;
 
 import javax.swing.*;
-
 import manage.AdminManage;
-import manage.UserManage;
 import manage.impl.AdminManageImpl;
-import manage.impl.UserManageImpl;
-import view.user.UserGUI;
 import exception.AdminException;
-import exception.UserException;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -104,11 +98,7 @@ public class AdminLogin extends JPanel {
 						passField.setText("");
 						return;
 					} else {
-						// 登陆成功
-						UserGUI userGUI = new UserGUI(loginname);
-						// 开启窗口
-						userGUI.getGUI(userGUI);
-						return;
+						new AdminFrame();
 					}
 				} catch (AdminException e1) {
 					JOptionPane.showMessageDialog(null,e1.getMessage());

@@ -10,6 +10,14 @@ import exception.OrderTicketException;
  */
 public interface OrderTicketManage {
 	/**
+	 * 
+	 * @param loginname
+	 * @param flightId
+	 * @return
+	 * @throws OrderTicketException
+	 */
+	boolean changeTicket (int orderTicketID, int flightID) throws OrderTicketException;
+	/**
 	 * 订票
 	 * @param orderTicket 订票信息
 	 * @return 订票号
@@ -21,7 +29,7 @@ public interface OrderTicketManage {
 	 * @return
 	 * @throws OrderTicketException
 	 */
-	boolean cancerTicket (OrderTicket orderTicket) throws OrderTicketException;
+	boolean cancerTicket (int id) throws OrderTicketException;
 	/**
 	 * 获取订票信息
 	 * @param username 用户姓名

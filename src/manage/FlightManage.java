@@ -9,6 +9,8 @@ import exception.FlightException;
  * @date: 2019-01-19 14:15
  */
 public interface FlightManage {
+	List<Flight> listCanModify () throws FlightException;
+	List<Flight> listCanFlight () throws FlightException;
 	/**
 	 * 获取航班信息
 	 * @return
@@ -21,6 +23,13 @@ public interface FlightManage {
 	 * @throws FlightException
 	 */
 	boolean updateFlight (Flight flight) throws FlightException;
+	/**
+	 * 获得某航班
+	 * @param id
+	 * @return
+	 * @throws FlightException
+	 */
+	Flight getFlight(int id) throws FlightException;
 	/**
 	 * 增加航班信息
 	 * @param flight

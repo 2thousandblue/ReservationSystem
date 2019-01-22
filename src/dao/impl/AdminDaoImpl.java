@@ -6,6 +6,7 @@ import java.util.List;
 import dao.AdminDao;
 import entity.Admin;
 import util.JDBCUtil;
+import util.impl.AdminMapperImpl;
 import util.impl.UserMapperImpl;
 
 /**
@@ -43,7 +44,7 @@ public class AdminDaoImpl implements AdminDao {
 		String sql = "SELECT *  FROM admin WHERE loginname=?";
 		try {
 			List<Admin> listAdmin = new ArrayList<Admin>();
-			List<Object> objects = JDBCUtil.executeQuery(sql, new UserMapperImpl(), loginname);
+			List<Object> objects = JDBCUtil.executeQuery(sql, new AdminMapperImpl(), loginname);
 			if (objects.size() == 0) {
 				return null;
 			}

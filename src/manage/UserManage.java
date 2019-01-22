@@ -19,4 +19,8 @@ public interface UserManage {
 	 * @return
 	 */
 	boolean registerUser (User user) throws UserException;
+	
+	String getUsername(String loginname) throws UserException;
+	
+	User getUserInfo(String loginname)  throws UserException;
 }

@@ -122,6 +122,11 @@ public class UserRegister extends JPanel {
 					JOptionPane.showMessageDialog(null,"密码不能为空");
 					return;
 				}
+				if (!(password1.equals(password2))) {
+					JOptionPane.showMessageDialog(null,"两次密码不一致");
+					return;
+				}
+				
 				String username = usernameField.getText();
 				if (username.length()==0) {
 					JOptionPane.showMessageDialog(null,"姓名不能为空");

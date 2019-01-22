@@ -12,6 +12,23 @@ import manage.UserManage;
  * @date: 2019-01-19 15:36
  */
 public class UserManageImpl implements UserManage {
+	
+	/* (non-Javadoc)
+	 * @see manage.UserManage#getUserInfo(java.lang.String)
+	 */
+	@Override
+	public User getUserInfo(String loginname) throws UserException {
+		UserDao userDao = new UserDaoImpl();
+		try {
+			 User user = userDao.getUser(loginname);
+			 if (user == null) {
+				 throw new UserException("获取用户失败");
+			 }
+			 return user;
+		} catch (SQLException e) {
+			throw new UserException(e.getMessage());
+		}
+	}
 	/**
 	 * 用户登陆验证
 	 * @return 验证结果
@@ -47,4 +64,18 @@ public class UserManageImpl implements UserManage {
 			throw new UserException(e.getMessage());
 		}
 	}
+	/* (non-Javadoc)
+	 * @see manage.UserManage#getUsername(java.lang.String)
+	 */
+	@Override
+	public String getUsername(String loginname) throws UserException {
+		UserDao userDao = new UserDaoImpl();
+		try {
+			 String username = (userDao.getUser(loginname)).getUsername();
+			 return username;
+		} catch (SQLException e) {
+			throw new UserException(e.getMessage());
+		}
+	}
+	
 }
