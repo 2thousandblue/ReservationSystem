@@ -14,6 +14,19 @@ import manage.UserManage;
 public class UserManageImpl implements UserManage {
 	
 	/* (non-Javadoc)
+	 * @see manage.UserManage#updateUser(entity.User)
+	 */
+	@Override
+	public boolean updateUser(User user) throws UserException {
+		UserDao userDao = new UserDaoImpl();
+		try {
+			boolean f = userDao.updateUser(user);
+			return f;
+		} catch (SQLException e) {
+			throw new UserException(e.getMessage());
+		}
+	}
+	/* (non-Javadoc)
 	 * @see manage.UserManage#getUserInfo(java.lang.String)
 	 */
 	@Override

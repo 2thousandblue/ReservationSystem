@@ -22,7 +22,7 @@ public interface OrderTicketManage {
 	 * @param orderTicket 订票信息
 	 * @return 订票号
 	 */
-	boolean bookTicket (String loginname, int flightId) throws OrderTicketException;
+	boolean bookTicket (int flightId, String username,String identity, String loginname) throws OrderTicketException;
 	/**
 	 * 取消订票
 	 * @param orderTicket
@@ -36,5 +36,5 @@ public interface OrderTicketManage {
 	 * @return
 	 * @throws OrderTicketException
 	 */
-	List<OrderTicket> listOrderTicket(String username) throws OrderTicketException;
+	List<OrderTicket> listOrderTicket(String loginname) throws OrderTicketException;
 }

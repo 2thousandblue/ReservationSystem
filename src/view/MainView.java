@@ -20,7 +20,7 @@ public class MainView  extends JFrame{
     JButton userLoginBtn = new JButton("用户登陆");
     JButton userRegisterBtn = new JButton("注册用户");
     JButton adminLoginBtn = new JButton("管理员登陆");
-    Dimension preferredSize = new Dimension(120,60);
+    Dimension preferredSize = new Dimension(210,60);
     Font font = new Font(null,Font.BOLD,18);
     /**
      * 图形框架初始化

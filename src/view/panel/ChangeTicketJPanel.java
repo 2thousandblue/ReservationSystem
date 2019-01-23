@@ -3,7 +3,10 @@ package view.panel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -11,26 +14,28 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import manage.FlightManage;
 import manage.OrderTicketManage;
+import manage.impl.FlightManageImpl;
 import manage.impl.OrderTicketManageImpl;
-import view.tablemodel.FlightTableModel;
 import view.tablemodel.OrderTicketModel;
+import entity.Flight;
 import entity.OrderTicket;
 import exception.FlightException;
 import exception.OrderTicketException;
 
 public class ChangeTicketJPanel extends JPanel {
-	FlightTableModel orderTicket = null;
+	OrderTicketModel orderTicket = null;
     JTable table = null;
-    private String username ;
+    private String loginname ;
     
-    public ChangeTicketJPanel (String username){  
-    	this.username = username;
+    public ChangeTicketJPanel (String loginname){  
+    	this.loginname = loginname;
     	setPreferredSize(new Dimension(800, 500));
     	setSize (800, 450);
     	setLocation(0, 50);
     	try {
-    		orderTicket = new FlightTableModel();
+    		orderTicket = new OrderTicketModel(loginname);
             table = new JTable(orderTicket);
             setComponent ();
             addComponent();
@@ -61,32 +66,44 @@ public class ChangeTicketJPanel extends JPanel {
 				
 				int Yes_or_no = JOptionPane.showConfirmDialog (null, "真的要修改吗？", "修改确认", JOptionPane.YES_NO_OPTION);
 				if (Yes_or_no == JOptionPane.YES_OPTION) {
-					int order_ticketID=0;
-					OrderTicketManage orderTicketManage = new OrderTicketManageImpl ();
+					FlightManage flightManage = new FlightManageImpl ();
 					try {
-						List<OrderTicket> list = orderTicketManage.listOrderTicket(ChangeTicketJPanel.this.username);
+						List<Flight> list = flightManage.listCanFlight();
 						if (list == null || list.size() == 0) {
 							return;
 						}
 						String[] user_select = new String[list.size()]; 
+						Map<String, Integer> hashMap = new HashMap<String, Integer>();
+						
 						for (int i=0; i<list.size(); i++) {
-							user_select[i] = String.valueOf(list.get(i).getId());
+							String s = list.get(i).getStart_place()+"->"+list.get(i).getEnd_place()+" "+list.get(i).getTakeoff_time();
+							hashMap.put(s, list.get(i).getId());
+							user_select[i] = s;
 						}
-						String sss =  (String)JOptionPane.showInputDialog(ChangeTicketJPanel.this,
-								"请选择你需要修改的订单", 
-								"订单选择",
+						
+						String flightIdStr =  (String)JOptionPane.showInputDialog(ChangeTicketJPanel.this,
+								"请选择航班", 
+								"航班选择",
 								JOptionPane.WARNING_MESSAGE,
 								null,
 								user_select,
 								user_select[0]
 								);
-						order_ticketID = Integer.valueOf(sss);
+						if (flightIdStr==null || "".equals(flightIdStr)) {
+							return ;
+						}
+						
+						// 用户选择的目标航班
+						int TargetFlightId = hashMap.get(flightIdStr);
 						OrderTicketManage orderTicketMange = new OrderTicketManageImpl();
-						orderTicketMange.changeTicket(order_ticketID,ticket_id);
+						orderTicketMange.changeTicket(ticket_id,TargetFlightId);
 						JOptionPane.showMessageDialog(null, "订单修改成功");
 						
-					} catch (OrderTicketException e1) {
+					} catch (FlightException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
+//					}
+					} catch (OrderTicketException e2) {
+						JOptionPane.showMessageDialog(null, e2.getMessage());
 					}
 				}
 				return;

@@ -94,6 +94,8 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 			throw new SQLException("无法执行该操作，请联系管理人员");
 		}
 	}
+	
+	
 	/**
 	 * 创建订票信息
 	 * @param 
@@ -101,7 +103,7 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	 */
 	@Override
 	public boolean saveOrderTicket(OrderTicket orderTicket)  throws SQLException{
-		String sql = "INSERT INTO order_ticket (flight_id, takeoff_time, start_place, end_place, price, username, identity) VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO order_ticket (flight_id, takeoff_time, start_place, end_place, price, username, identity, loginname) VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			int i = JDBCUtil.executeUpdate(sql,
 					orderTicket.getFlight_id(),
@@ -110,7 +112,8 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 					orderTicket.getEnd_place(),
 					orderTicket.getPrice(),
 					orderTicket.getUsername(),
-					orderTicket.getIdentity());
+					orderTicket.getIdentity(),
+					orderTicket.getLoginname());
 			if (i == 1) {
 				return true;
 			}
@@ -119,6 +122,29 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 			throw new SQLException("无法执行该操作，请联系管理人员");
 		}
 	}
+	
+	public static void main(String[] args) {
+		OrderTicket a = new OrderTicket();
+		a.setId(1);
+		a.setFlight_id(4);
+		a.setTakeoff_time("test");
+		a.setStart_place("tt");
+		a.setEnd_place("dsa");
+		a.setPrice(50);
+		a.setUsername("user1");
+		a.setIdentity("121212121");
+		a.setLoginname("user1");
+		OrderTicketDaoImpl t = new OrderTicketDaoImpl ();
+		
+		try {
+			boolean f = t.updateOrderTicket(a);
+			System.out.println(f);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * 更新订票信息
 	 * @param orderTicket
@@ -126,33 +152,36 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 	 */
 	@Override
 	public boolean updateOrderTicket(OrderTicket orderTicket) throws SQLException {
-		String sql = "UPDATE order_ticket SET takeoff_time=?, start_place=?, end_place=?, price=?, username=?, identity=? WHERE id=?";
+		String sql = "UPDATE order_ticket SET flight_id=?,takeoff_time=?, start_place=?, end_place=?, price=?, username=?, identity=?, loginname=? WHERE id=?";
 		try {
 			int i = JDBCUtil.executeUpdate(sql,
+					orderTicket.getFlight_id(),
 					orderTicket.getTakeoff_time(),
 					orderTicket.getStart_place(),
 					orderTicket.getEnd_place(),
 					orderTicket.getPrice(),
 					orderTicket.getUsername(),
 					orderTicket.getIdentity(),
+					orderTicket.getLoginname(),
 					orderTicket.getId());
 			if (i == 1) {
 				return true;
+			}else {
+				return false;
 			}
-			return false;
 		} catch (SQLException e) {
-			throw new SQLException("无法执行该操作，请联系管理人员");
+			throw new SQLException(e.getMessage());
 		}
 	}
 	/* (non-Javadoc)
 	 * @see dao.OrderTicketDao#listOrderTicket(java.lang.String)
 	 */
 	@Override
-	public List<OrderTicket> listOrderTicket(String username) throws SQLException {
-		String sql = "SELECT *  FROM order_ticket WHERE username=?";
+	public List<OrderTicket> listOrderTicket(String loginname) throws SQLException {
+		String sql = "SELECT *  FROM order_ticket WHERE loginname=?";
 		try {
 			List<OrderTicket> listOrderTicket = new ArrayList<OrderTicket>();
-			List<Object> objects = JDBCUtil.executeQuery(sql, new OrderTicketMapperImpl(), username);
+			List<Object> objects = JDBCUtil.executeQuery(sql, new OrderTicketMapperImpl(), loginname);
 			if (objects.size() == 0) {
 				return null;
 			}
@@ -161,7 +190,7 @@ public class OrderTicketDaoImpl implements dao.OrderTicketDao {
 			}
 			return listOrderTicket;
 		} catch (SQLException e) {
-			throw new SQLException("无法执行该操作，请联系管理人员");
+			throw new SQLException(e.getMessage());
 		}
 	}
 	

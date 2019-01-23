@@ -23,4 +23,6 @@ public interface UserManage {
 	String getUsername(String loginname) throws UserException;
 	
 	User getUserInfo(String loginname)  throws UserException;
+	
+	boolean updateUser(User user)  throws UserException;
 }

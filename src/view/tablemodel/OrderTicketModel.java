@@ -16,12 +16,12 @@ public class OrderTicketModel  extends AbstractTableModel {
     OrderTicketManage orderTicketManage = null;
     List<OrderTicket> tickets = null;
 
-    public OrderTicketModel (String username) throws FlightException {
+    public OrderTicketModel (String loginname) throws FlightException {
         // 航班信息管理实现类
     	orderTicketManage = new OrderTicketManageImpl();
         // 获得所有航班信息
     	try {
-			tickets = orderTicketManage.listOrderTicket(username);
+			tickets = orderTicketManage.listOrderTicket(loginname);
 			// 把航班信息变成二维数组
 	    	ticketsDate = new String[tickets.size()][];
 	        for (int i=0; i<tickets.size(); i++) {

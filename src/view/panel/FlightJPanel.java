@@ -69,9 +69,21 @@ public class FlightJPanel extends JPanel {
 				String flightInfo = "您已选择于 "+takeoff_time+"  从 【"+start_place+"】 开往 【"+end_place+"】 "+flying_time+" 的航班";
 				int Yes_or_no = JOptionPane.showConfirmDialog (null, flightInfo, "是否订购", JOptionPane.YES_NO_OPTION);
 				if (Yes_or_no == JOptionPane.YES_OPTION) {
+					// 让用户输入姓名
+					String username = JOptionPane.showInputDialog("请输入购票姓名：");
+					if (username == null || "".equals(username)) {
+						JOptionPane.showMessageDialog(null,"没有输入姓名");
+						return ;
+					}
+					// 让用户输入身份证
+					String identity = JOptionPane.showInputDialog("请输入购票身份证号：");
+					if (identity == null || "".equals(identity)) {
+						JOptionPane.showMessageDialog(null,"没有输入身份证号");
+						return ;
+					}
 					OrderTicketManageImpl orderTicketManage = new OrderTicketManageImpl ();
 					try {
-						boolean f = orderTicketManage.bookTicket(FlightJPanel.this.loginname, row+1);
+						boolean f = orderTicketManage.bookTicket(row+1, username, identity, FlightJPanel.this.loginname);
 						if (f) {
 							JOptionPane.showMessageDialog(null,"订票成功");
 						} else {
@@ -81,7 +93,7 @@ public class FlightJPanel extends JPanel {
 						JOptionPane.showMessageDialog(null,e1.getMessage());
 					}
 				} else if (Yes_or_no == JOptionPane.NO_OPTION){
-					System.out.println("用户选择了否");
+					return ;
 				}
             }
         });

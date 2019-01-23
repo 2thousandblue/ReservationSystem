@@ -91,6 +91,7 @@ public class UserDaoImpl implements UserDao {
             throw new SQLException("无法执行该操作，请联系管理员");
         }
 	}
+
 	/**
 	 * 更新用户数据
 	 * @param user 用户对象
@@ -98,7 +99,7 @@ public class UserDaoImpl implements UserDao {
 	 */
 	@Override
 	public boolean updateUser(User user) throws SQLException {
-		String sql = "UPDATE user SET loginname=?, password=?, username=?, identity=?, sex=?, phone=?, email=?, address=?WHERE id=?";
+		String sql = "UPDATE user SET loginname=?, password=?, username=?, identity=?, sex=?, phone=?, email=?, address=? WHERE id=?";
 		try {
 			int i = JDBCUtil.executeUpdate(sql,
 					user.getLoginname(),
@@ -112,8 +113,9 @@ public class UserDaoImpl implements UserDao {
 					user.getId());
 			if (i == 1) {
 				return true;
+			} else {
+				return false;
 			}
-			return false;
 		} catch (SQLException e) {
 			throw new SQLException("无法执行该操作，请联系管理员");
 		}

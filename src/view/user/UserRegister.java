@@ -1,6 +1,8 @@
 package view.user;
 
 import javax.swing.*;
+
+import view.MainView;
 import entity.User;
 import exception.UserException;
 import manage.UserManage;
@@ -55,7 +57,7 @@ public class UserRegister extends JPanel {
 
     // 按钮
     JButton registerButton = new JButton("立即注册");
-
+    JButton backButton = new JButton("返回");
     private void setComponent () {
         setLayout(new GridLayout(10, 1));
     }
@@ -83,6 +85,7 @@ public class UserRegister extends JPanel {
     	address.add(addressLabel);
     	address.add(addressField);
     	btn.add(registerButton);
+    	btn.add(backButton);
     	add(loginname);
     	add(password1);
     	add(password2);
@@ -183,6 +186,15 @@ public class UserRegister extends JPanel {
 					JOptionPane.showMessageDialog(null,e.getMessage());
 				}
 			};
+    		
+    	});
+    	backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				UserRegister.this.setVisible(false);
+				new MainView ("航空订票系统");
+			}
     		
     	});
     }

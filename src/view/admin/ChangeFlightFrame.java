@@ -44,7 +44,9 @@ public class ChangeFlightFrame  extends JFrame{
     JTextField priceField = new JTextField(20);
 
     // 按钮
+    JPanel btnPanel = new JPanel();
     JButton changeButton = new JButton("修改个人信息");
+    JButton backButton = new JButton("返回");
 	private void init () {
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,6 +80,8 @@ public class ChangeFlightFrame  extends JFrame{
 		ticket.add(ticketField);
 		price.add(priceLabel);
 		price.add(priceField);
+		btnPanel.add(changeButton);
+		btnPanel.add(backButton);
 		add(flightID);
 		add(takeoff_time);
 		add(flying_time);
@@ -85,7 +89,7 @@ public class ChangeFlightFrame  extends JFrame{
 		add(end_place);
 		add(ticket);
 		add(price);
-		add(changeButton);
+		add(btnPanel);
 	}
 	
 	private void addListenter () {
@@ -149,6 +153,14 @@ public class ChangeFlightFrame  extends JFrame{
 			};
     		
     	});
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ChangeFlightFrame.this.setVisible(false);
+			}
+			
+		});
 	}
 	
 	public ChangeFlightFrame (int id) {

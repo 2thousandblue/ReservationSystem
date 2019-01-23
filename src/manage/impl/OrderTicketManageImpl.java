@@ -28,7 +28,16 @@ public class OrderTicketManageImpl implements OrderTicketManage {
 	private UserDao userDao = new UserDaoImpl ();
 	private FlightDao flightDao = new FlightDaoImpl ();
 	private OrderTicketDao orderTicketDao = new OrderTicketDaoImpl ();
-
+	
+	public static void main(String[] args) {
+		OrderTicketManageImpl t = new OrderTicketManageImpl ();
+		try {
+			t.changeTicket(1, 4);
+		} catch (OrderTicketException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see manage.OrderTicketManage#changeTicket(java.lang.String, int)
 	 */
@@ -36,77 +45,64 @@ public class OrderTicketManageImpl implements OrderTicketManage {
 	public boolean changeTicket(int orderTicketID, int flightID) throws OrderTicketException {
 		try {
 			transaction.start();
-			/**
-			 * 获取需要改签的订单信息
-			 */
 			OrderTicketDao orderTicketDao = new OrderTicketDaoImpl();
-			// 订单对象
+			// 获取订单
 			OrderTicket oldOrderTicket = orderTicketDao.getOrderTicket(orderTicketID);
-			
-			// 订单对象对应的航班号
 			int oldFlightID = oldOrderTicket.getFlight_id();
 			// 根据旧的航班号找到对应航班
 			Flight flightOld = flightDao.getFlight(oldFlightID);
-			// 使其航班票数恢复
-			int num = flightOld.getTicket()+1;
+			// 恢复旧航班的票数
+			int num = flightOld.getTicket();
 			flightOld.setTicket(num+1);
-			boolean isSuccess1 = flightDao.updateFlight(flightOld);
-			
-			// 获取新的航班信息
+			// 判断目标航班是否有票
 			Flight flight = flightDao.getFlight(flightID);
-			
 			int count = flight.getTicket();
 			if (count <= 0) {
-				transaction.commit();
 				throw new OrderTicketException("票已售光");
 			}
 			// 减掉一张票
 			flight.setTicket(count-1);
-			boolean isSuccess2 = flightDao.updateFlight(flight);
-			
-			// 新的订单信息
+			// 更新订单信息
 			OrderTicket orderTicket = new OrderTicket();
-			// 使用旧的ID
 			orderTicket.setId(oldOrderTicket.getId());
-			// 新的航班号
-			orderTicket.setFlight_id(oldOrderTicket.getFlight_id());
-			// 新的起飞时间
+			orderTicket.setFlight_id(flightID);
 			orderTicket.setTakeoff_time(flight.getTakeoff_time());
-			// 新的出发地
 			orderTicket.setStart_place(flight.getStart_place());
-			// 新的目的地
 			orderTicket.setEnd_place(flight.getEnd_place());
-			// 新的票价
 			orderTicket.setPrice(flight.getPrice());
-			// 旧的名字
 			orderTicket.setUsername(oldOrderTicket.getUsername());
-			// 旧的身份证
 			orderTicket.setIdentity(oldOrderTicket.getIdentity());
+			orderTicket.setLoginname(oldOrderTicket.getLoginname());
 			
+			boolean isSuccess1 = flightDao.updateFlight(flightOld);
+			boolean isSuccess2 = flightDao.updateFlight(flight);
 			boolean isSuccess3 = orderTicketDao.updateOrderTicket(orderTicket);
 			
-			if (!(isSuccess1 && isSuccess2 && isSuccess3)) {
+			if ((!isSuccess1 && !isSuccess2 && !isSuccess3)) {
 				transaction.rollback();
+				return false;
+			}else {
+				transaction.commit();
+				return true;
 			}
-			transaction.commit();
-			return true;
+			
 		} catch (SQLException e) {
 			throw new OrderTicketException(e.getMessage());
 		}
 	}
 
+	
+	
 	@Override
-	public boolean bookTicket(String loginname, int flightId) throws OrderTicketException {
+	public boolean bookTicket(int flightId, String username,String identity, String loginname) throws OrderTicketException {
 		try {
 			transaction.start();
-			
-			// 获取用户的相关信息
-			User user = userDao.getUser(loginname);
 			// 获取对应航班号的航班信息
 			Flight flight = flightDao.getFlight(flightId);
 			
 			OrderTicketDaoImpl orderTicketDaoImpl = new OrderTicketDaoImpl ();
-			boolean isUsed = orderTicketDaoImpl.isUseFlightID(flightId,user.getUsername());
+			
+			boolean isUsed = orderTicketDaoImpl.isUseFlightID(flightId,username);
 			if (isUsed) {
 				throw new OrderTicketException("您已买过这个航班的票了");
 			}
@@ -118,8 +114,9 @@ public class OrderTicketManageImpl implements OrderTicketManage {
 			orderTicket.setStart_place(flight.getStart_place());
 			orderTicket.setEnd_place(flight.getEnd_place());
 			orderTicket.setPrice(flight.getPrice());
-			orderTicket.setUsername(user.getUsername());
-			orderTicket.setIdentity(user.getIdentity());
+			orderTicket.setUsername(username);
+			orderTicket.setIdentity(identity);
+			orderTicket.setLoginname(loginname);
 			int count = flight.getTicket();
 			if (count <= 0) {
 				transaction.commit();
@@ -149,14 +146,15 @@ public class OrderTicketManageImpl implements OrderTicketManage {
 			transaction.start();
 			OrderTicketDao ticketDao = new OrderTicketDaoImpl ();
 			FlightDao flightDao = new FlightDaoImpl ();
+			// 订单
 			OrderTicket ticket = ticketDao.getOrderTicket(id);
+			// 订单里的航班号
 			Flight flight = flightDao.getFlight(ticket.getFlight_id());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			try {
-				
 				Date takeOffTime= sdf.parse(flight.getTakeoff_time());
 				// 判断起飞时间是否在当前时间之前
-				boolean f = takeOffTime.before(new Date());
+				boolean f = takeOffTime.after(new Date());
 				if (f) {
 					int ticketCount = flight.getTicket();
 					// 恢复航班信息，机票+1
@@ -185,10 +183,10 @@ public class OrderTicketManageImpl implements OrderTicketManage {
 	 * @see manage.OrderTicketManage#listOrderTicket(java.lang.String)
 	 */
 	@Override
-	public List<OrderTicket> listOrderTicket(String username) throws OrderTicketException {
+	public List<OrderTicket> listOrderTicket(String loginname) throws OrderTicketException {
 		OrderTicketDao orderTicketDao = new OrderTicketDaoImpl();
 		try {
-			List<OrderTicket> list = orderTicketDao.listOrderTicket(username);
+			List<OrderTicket> list = orderTicketDao.listOrderTicket(loginname);
 			if (list == null) {
 				throw new OrderTicketException("没有订票信息");
 			}

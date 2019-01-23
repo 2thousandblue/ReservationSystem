@@ -25,7 +25,7 @@ public class FlightTableModel extends AbstractTableModel {
         // 航班信息管理实现类
         flightManage = new FlightManageImpl();
         // 获得所有航班信息
-        flights = flightManage.listCanModify();
+        flights = flightManage.listCanFlight();
         // 把航班信息变成二维数组
         flightDate = new String[flights.size()][];
         for (int i=0; i<flights.size(); i++) {

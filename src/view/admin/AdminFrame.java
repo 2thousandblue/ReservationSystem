@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import entity.Flight;
+import exception.FlightException;
+
+import manage.impl.FlightManageImpl;
 
 public class AdminFrame extends JFrame {
 
@@ -14,7 +20,7 @@ public class AdminFrame extends JFrame {
 	
 	private JButton allFlightBtn = new JButton("查询所有航班");;
     private JButton canModfyTicketBtn = new JButton("修改航班");
-    
+    private JButton addFlightBtn = new JButton("添加航班");
     private JPanel p = null;
     
     private List<JPanel> list = new ArrayList<JPanel>();
@@ -42,9 +48,9 @@ public class AdminFrame extends JFrame {
 		list.add(p);
 		buttonPanel.add (allFlightBtn);
 		buttonPanel.add (canModfyTicketBtn);
+		buttonPanel.add (addFlightBtn);
 		add (buttonPanel);
 		add (p);
-		
 	}
 	
 	private void addListenter () {
@@ -53,8 +59,22 @@ public class AdminFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				AllFlightJPanel panel = new AllFlightJPanel();
-				changePanel(panel);
+				FlightManageImpl flightManage = new FlightManageImpl();
+				try {
+					List<Flight> list = flightManage.listCanModify();
+					if (list == null || list.size() == 0) {
+						JOptionPane.showMessageDialog(null, "没有航班");
+						return;
+					} else {
+						AllFlightJPanel panel = new AllFlightJPanel();
+						changePanel(panel);
+					}
+				} catch (FlightException e) {
+					e.printStackTrace();
+				}
+				
+				
+				
 			}
 			
 		});
@@ -63,12 +83,33 @@ public class AdminFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ModifyFlightJPanel panel = new ModifyFlightJPanel();
-				changePanel(panel);
+				FlightManageImpl flightManage = new FlightManageImpl();
+				try {
+					List<Flight> list = flightManage.listCanModify();
+					if (list == null || list.size() == 0) {
+						JOptionPane.showMessageDialog(null, "没有可以修改的航班");
+						return;
+					} else {
+						ModifyFlightJPanel panel = new ModifyFlightJPanel();
+						changePanel(panel);
+					}
+				} catch (FlightException e) {
+					e.printStackTrace();
+				}
 			}
 			
 		});
-		
+		// 添加航班
+		addFlightBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				AdminFrame.this.setVisible(false);
+				AddFlightFrame panel = new AddFlightFrame();
+				
+			}
+			
+		});
 	}
 
 	private void init () {

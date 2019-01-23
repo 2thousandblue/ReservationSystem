@@ -22,7 +22,7 @@ public class AdminLogin extends JPanel {
     JLabel passText = new JLabel("管理员密码:");
     JTextField loginField = new JTextField(20);
     JPasswordField passField = new JPasswordField(20);
-    JButton loginBtn = new JButton("管理员登陆");
+    JButton loginBtn = new JButton("登陆");
     Dimension preferredSize = new Dimension(120,100);
     Font font = new Font(null,Font.BOLD,20);
 

@@ -48,8 +48,8 @@ public class ModifyFlightJPanel  extends JPanel{
 				int row = table.getSelectedRow();
 				// 订单号
 				int flight_id = Integer.valueOf((String)table.getValueAt(row, 0)) ;
-				String info = "是否修改航班号为"+flight_id+"的订单";
-				int Yes_or_no = JOptionPane.showConfirmDialog (null, info, "是否修改订单", JOptionPane.YES_NO_OPTION);
+				String info = "是否修改航班:"+flight_id+"";
+				int Yes_or_no = JOptionPane.showConfirmDialog (null, info, "修改航班", JOptionPane.YES_NO_OPTION);
 				if (Yes_or_no == JOptionPane.YES_OPTION) {
 					new ChangeFlightFrame(flight_id);
 				}

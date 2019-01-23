@@ -8,10 +8,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import entity.OrderTicket;
+import exception.OrderTicketException;
 import exception.UserException;
+import manage.OrderTicketManage;
 import manage.UserManage;
+import manage.impl.OrderTicketManageImpl;
 import manage.impl.UserManageImpl;
-import view.panel.BookTicketJPanel;
+import view.panel.CancerTicketJPanel;
 import view.panel.ChangeTicketJPanel;
 import view.panel.FlightJPanel;
 
@@ -75,8 +80,21 @@ public class UserFrame extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				BookTicketJPanel panel = new BookTicketJPanel (UserFrame.this.username);
-				changePanel(panel);
+				OrderTicketManage orderTiecketManage = new OrderTicketManageImpl ();
+				try {
+					List<OrderTicket> list = orderTiecketManage.listOrderTicket(loginname);
+					if (list == null || list.size() == 0) {
+						JOptionPane.showMessageDialog(null, "没有订单");
+						return;
+					} else {
+						CancerTicketJPanel panel = new CancerTicketJPanel (UserFrame.this.loginname);
+						changePanel(panel);
+					}
+				} catch (OrderTicketException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+				
+				
 			}
 			
 		});
@@ -85,8 +103,20 @@ public class UserFrame extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ChangeTicketJPanel panel = new ChangeTicketJPanel (UserFrame.this.username);
-				changePanel(panel);
+				OrderTicketManage orderTiecketManage = new OrderTicketManageImpl ();
+				try {
+					List<OrderTicket> list = orderTiecketManage.listOrderTicket(loginname);
+					if (list == null || list.size() == 0) {
+						JOptionPane.showMessageDialog(null, "没有订单");
+						return;
+					} else {
+						ChangeTicketJPanel panel = new ChangeTicketJPanel (UserFrame.this.loginname);
+						changePanel(panel);
+					}
+				} catch (OrderTicketException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+				
 			}
 			
 		});
@@ -95,6 +125,7 @@ public class UserFrame extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				UserFrame.this.setVisible(false);
 				ChangeUserinfo u = new ChangeUserinfo (UserFrame.this.loginname);
 			}
 			
@@ -129,7 +160,6 @@ public class UserFrame extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-
-		UserFrame userFrame = new UserFrame ("test");
+		UserFrame userFrame = new UserFrame ("user1");
 	}
 }

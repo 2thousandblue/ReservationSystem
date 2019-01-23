@@ -23,6 +23,7 @@ public class OrderTicketMapperImpl implements RowMapperObject {
 		o.setPrice(rs.getDouble("price"));
 		o.setUsername(rs.getString("username"));
 		o.setIdentity(rs.getString("identity"));
+		o.setLoginname(rs.getString("loginname"));
 		return o;
 	}
 

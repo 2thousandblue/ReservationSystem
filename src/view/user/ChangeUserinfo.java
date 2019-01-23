@@ -20,6 +20,7 @@ import manage.impl.UserManageImpl;
 public class ChangeUserinfo extends JFrame{
 	private User user;
 	JPanel loginname = new JPanel();
+	JPanel oldPasss = new JPanel();
     JPanel password1 = new JPanel();
     JPanel password2 = new JPanel();
     JPanel username = new JPanel();
@@ -32,6 +33,7 @@ public class ChangeUserinfo extends JFrame{
     
     // Label文字
     JLabel loginnameLabel = new JLabel("用户名:");
+    JLabel oldPasssLabel = new JLabel("输入旧密码:");
     JLabel password1Label = new JLabel("请输入密码:");
     JLabel password2Label = new JLabel("请再输密码:");
     JLabel usernameLabel = new JLabel("姓名:");
@@ -43,6 +45,7 @@ public class ChangeUserinfo extends JFrame{
 
     // 输入框
     JLabel loginnameField = new JLabel("");
+    JPasswordField oldPasssField = new JPasswordField(20);
     JPasswordField password1Field = new JPasswordField(20);
     JPasswordField password2Field = new JPasswordField(20);
     JLabel usernameField = new JLabel("");
@@ -56,6 +59,7 @@ public class ChangeUserinfo extends JFrame{
 
     // 按钮
     JButton changeButton = new JButton("修改个人信息");
+    JButton backButton = new JButton("返回");
 	private void init () {
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +68,7 @@ public class ChangeUserinfo extends JFrame{
 	}
 	
 	private void setComponent () {
-		setLayout(new GridLayout(10, 1));
+		setLayout(new GridLayout(11, 1));
 		loginnameField.setText(user.getLoginname());
 		usernameField.setText(user.getUsername());
 		identityField.setText(user.getIdentity());
@@ -78,6 +82,8 @@ public class ChangeUserinfo extends JFrame{
     	sexButton.add(femaleRadio);
     	loginname.add(loginnameLabel);
     	loginname.add(loginnameField);
+    	oldPasss.add(oldPasssLabel);
+    	oldPasss.add(oldPasssField);
     	password1.add(password1Label);
     	password1.add(password1Field);
     	password2.add(password2Label);
@@ -96,7 +102,9 @@ public class ChangeUserinfo extends JFrame{
     	address.add(addressLabel);
     	address.add(addressField);
     	btn.add(changeButton);
+    	btn.add(backButton);
     	add(loginname);
+    	add(oldPasss);
     	add(password1);
     	add(password2);
     	add(username);
@@ -114,11 +122,23 @@ public class ChangeUserinfo extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String loginname = loginnameField.getText();
+				String oldPass = oldPasssField.getText();
 				String password1 = password1Field.getText();
 				String password2 = password2Field.getText();
+				if (oldPass.length()==0) {
+					JOptionPane.showMessageDialog(null,"旧密码不能为空");
+					return;
+				}
 				if (password1.length()==0 || password2.length()==0) {
 					JOptionPane.showMessageDialog(null,"密码不能为空");
 					return;
+				}
+				if (!password1.equals(password2)) {
+					JOptionPane.showMessageDialog(null,"两次密码不一致");
+					return;
+				}
+				if (oldPass.equals(password1)) {
+					JOptionPane.showMessageDialog(null,"旧密码和新密码不能相同");
 				}
 				String username = usernameField.getText();
 				String identity = identityField.getText();
@@ -141,6 +161,7 @@ public class ChangeUserinfo extends JFrame{
 				String email = emailField.getText();
 				String address = addressField.getText();
 				User user = new User();
+				
 				user.setLoginname(loginname);
 				user.setPassword(password1);
 				user.setUsername(username);
@@ -152,12 +173,20 @@ public class ChangeUserinfo extends JFrame{
 				 
 				UserManage userManage = new UserManageImpl();
 				try {
-					boolean f = userManage.registerUser(user);
+					User check = userManage.getUserInfo(loginname);
+					user.setId(check.getId());
+					if (!(check.getPassword().equals(oldPass))) {
+						JOptionPane.showMessageDialog(null, "旧密码输入错误");
+						return ;
+					}
+					
+					// 修改用户信息
+					boolean f = userManage.updateUser(user);
 					if (f) {
-						JOptionPane.showMessageDialog(null, "注册成功");
+						JOptionPane.showMessageDialog(null, "修改成功");
 						return ;
 					} else {
-						JOptionPane.showMessageDialog(null, "注册失败");
+						JOptionPane.showMessageDialog(null, "修改失败");
 						return ;
 					}
 				} catch (UserException e) {
@@ -166,6 +195,16 @@ public class ChangeUserinfo extends JFrame{
 			};
     		
     	});
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ChangeUserinfo.this.setVisible(false);
+				UserFrame u = new UserFrame (ChangeUserinfo.this.user.getLoginname());
+				return;
+			}
+			
+		});
 	}
 	
 	public ChangeUserinfo (String loginname) {

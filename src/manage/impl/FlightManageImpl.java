@@ -109,6 +109,16 @@ public class FlightManageImpl implements FlightManage {
      */
     @Override
     public boolean saveFlight(Flight flight) throws FlightException {
-        return false;
+    	FlightDao flightDao = new FlightDaoImpl ();
+    	try {
+    		boolean f = flightDao.saveFlight(flight);
+    		if (f) {
+    			return true;
+    		} else {
+    			return false;
+    		}
+    	} catch (SQLException e) {
+    		throw new  FlightException(e.getMessage());
+    	}
     }
 }

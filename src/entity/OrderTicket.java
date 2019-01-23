@@ -17,6 +17,9 @@ public class OrderTicket {
 	private String username;
 	// 身份证号
 	private String identity;
+	// 够票loginname
+	private String loginname;
+	
 	public OrderTicket() {
 		super();
 	}
@@ -27,6 +30,18 @@ public class OrderTicket {
 		return id;
 	}
 
+	/**
+	 * @return the loginname
+	 */
+	public String getLoginname() {
+		return loginname;
+	}
+	/**
+	 * @param loginname the loginname to set
+	 */
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
+	}
 	public int getFlight_id() {
 		return flight_id;
 	}
@@ -116,9 +131,10 @@ public class OrderTicket {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
-		return "OrderTicket [end_place=" + end_place + ", flight_id=" + flight_id + ", id=" + id + ", identity=" + identity + ", price=" + price
-				+ ", start_place=" + start_place + ", takeoff_time=" + takeoff_time + ", username=" + username + "]";
+		return "OrderTicket [end_place=" + end_place + ", flight_id=" + flight_id + ", id=" + id + ", identity=" + identity + ", loginname=" + loginname + ", price=" + price + ", start_place="
+				+ start_place + ", takeoff_time=" + takeoff_time + ", username=" + username + "]";
 	}
 	
 	
