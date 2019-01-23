@@ -71,10 +71,15 @@ CREATE TABLE flight (
 INSERT INTO flight 
 (takeoff_time, flying_time, start_place, end_place, ticket, price)
 VALUES
-('2019-01-18 10:05', '90分钟', '北京', '纽约', 50, 500.0),
-('2019-01-18 11:05', '80分钟', '北京', '华盛顿', 50, 500.0),
-('2019-01-18 10:05', '30分钟', '南京', '北京', 50, 200.0),
-('2019-01-18 10:05', '60分钟', '重庆', '合肥', 50, 300.0);
+('2019-01-25 10:05', '90分钟', '北京', '纽约', 50, 500.0),
+('2019-01-24 11:05', '80分钟', '北京', '华盛顿', 50, 500.0),
+('2019-01-24 10:05', '30分钟', '南京', '北京', 50, 200.0),
+('2019-01-28 10:05', '60分钟', '重庆', '合肥', 50, 300.0),
+('2019-01-29 10:05', '60分钟', '重庆', '合肥', 50, 300.0),
+('2019-01-30 10:05', '60分钟', '重庆', '合肥', 50, 300.0),
+('2019-01-26 10:05', '60分钟', '重庆', '合肥', 50, 300.0),
+('2019-01-18 10:05', '60分钟', '北京', '纽约', 50, 500.0)
+;
 ```
 
 ## 购票信息表
@@ -87,6 +92,7 @@ CREATE TABLE order_ticket (
 	start_place VARCHAR(20) NOT NULL COMMENT '出发地',
 	end_place VARCHAR(20) NOT NULL COMMENT '目的地',
 	price DECIMAL(18,2) UNSIGNED NOT NULL COMMENT '票价',
+	loginname VARCHAR(16) NOT NULL COMMENT '用户名',
 	username VARCHAR(20) NOT NULL COMMENT '姓名',
 	identity VARCHAR(18) NOT NULL COMMENT '身份证号'
 );
@@ -95,7 +101,7 @@ CREATE TABLE order_ticket (
 添加购票信息测试数据：
 ```
 INSERT INTO order_ticket 
-(flight_id, takeoff_time, start_place, end_place, price, username, identity)
+(flight_id, takeoff_time, start_place, end_place, price, username, identity, loginname)
 VALUES
-(1, '2019-01-18 10:05', '北京', '纽约', 500.0, '张三', '1241123413412195');
+(1, '2019-01-18 10:05', '北京', '纽约', 500.0, '张三', '1241123413412195', 'user1');
 ```
